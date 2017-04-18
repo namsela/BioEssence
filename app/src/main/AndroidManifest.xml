@@ -82,14 +82,6 @@
                 android:value="com.adafruit.bluefruit.le.connect.app.MainActivity" />
         </activity>
         <activity
-            android:name=".app.PinIOActivity"
-            android:label="@string/title_activity_pin_io"
-            android:screenOrientation="fullUser">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.adafruit.bluefruit.le.connect.app.MainActivity" />
-        </activity>
-        <activity
             android:name=".app.ControllerActivity"
             android:label="@string/title_activity_controller"
             android:parentActivityName=".app.MainActivity"
@@ -148,33 +140,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.adafruit.bluefruit.le.connect.app.settings.MqttUartSettingsActivity" />
-        </activity>
-        <activity
-            android:name=".app.neopixel.NeopixelActivity"
-            android:label="@string/title_activity_neopixel"
-            android:parentActivityName=".app.MainActivity"
-            android:screenOrientation="fullUser">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.adafruit.bluefruit.le.connect.app.MainActivity" />
-        </activity>
-        <activity
-            android:name=".app.neopixel.NeopixelColorPickerActivity"
-            android:theme="@style/AppTheme.NoActionBarDialog" />
-        <activity
-            android:name=".app.neopixel.NeopixelBoardSelectorActivity"
-            android:theme="@style/AppTheme.NoActionBarDialog" />
-        <activity
-            android:name=".app.neopixel.NeopixelBoardTypeActivity"
-            android:theme="@style/AppTheme.NoActionBarDialog" />
-        <activity
-            android:name=".app.neopixel.NeopixelHelpActivity"
-            android:parentActivityName=".app.neopixel.NeopixelActivity"
-            android:screenOrientation="fullUser">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.adafruit.bluefruit.le.connect.app.neopixel.NeopixelActivity" />
-        </activity>
+        </activity>s
 
     </application>
 
