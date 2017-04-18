@@ -1,7 +1,6 @@
 package com.adafruit.bluefruit.le.connect.app.settings;
 
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -16,7 +15,6 @@ import android.util.Log;
 
 import com.adafruit.bluefruit.le.connect.BuildConfig;
 import com.adafruit.bluefruit.le.connect.R;
-import com.adafruit.bluefruit.le.connect.app.UartActivity;
 import com.adafruit.bluefruit.le.connect.app.update.FirmwareUpdater;
 
 
@@ -127,17 +125,7 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
     {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        if (key.equals("pref_uarttextmaxpackets"))
-        {
-            // Set pref_uarttextmaxpackets
-            final int uartTextMaxPackets = getUartTextMaxPackets(getActivity());
-
-            EditTextPreference etp = (EditTextPreference) findPreference("pref_uarttextmaxpackets");
-            String summary = String.format(getString(R.string.settings_uarttextmaxpackets_summary_format), uartTextMaxPackets);
-            etp.setSummary(summary);
-            etp.setText("" + uartTextMaxPackets);
-        }
-        else if (key.equals("pref_updateserver"))
+        if (key.equals("pref_updateserver"))
         {
             // Set updateserver
             String updateServer = sharedPreferences.getString("pref_updateserver", FirmwareUpdater.kDefaultUpdateServerUrl);
@@ -147,18 +135,4 @@ public class PreferencesFragment extends PreferenceFragment implements SharedPre
         }
     }
 
-    public static int getUartTextMaxPackets(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String uartTextMaxPacketsString = sharedPreferences.getString("pref_uarttextmaxpackets", "" + UartActivity.kDefaultMaxPacketsToPaintAsText);
-
-        // Extract integer (and check for exceptions)
-        int uartTextMaxPackets = UartActivity.kDefaultMaxPacketsToPaintAsText;
-        try {
-            uartTextMaxPackets = Integer.parseInt(uartTextMaxPacketsString);
-        } catch (NumberFormatException ignored) {
-        }
-        if (uartTextMaxPackets<1) uartTextMaxPackets = 1;       // Mininum value is 1
-
-        return uartTextMaxPackets;
-    }
 }

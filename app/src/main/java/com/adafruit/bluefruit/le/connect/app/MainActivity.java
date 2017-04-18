@@ -91,11 +91,7 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
     // Components
     private final static int kComponentsNameIds[] = {
             R.string.scan_connectservice_info,
-            R.string.scan_connectservice_uart,
-            R.string.scan_connectservice_pinio,
             R.string.scan_connectservice_controller,
-            R.string.scan_connectservice_beacon,
-            R.string.scan_connectservice_neopixel,
     };
 
     // Activity request codes (used for onActivityResult)
@@ -621,10 +617,7 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
                                 mComponentToStartWhenConnected = InfoActivity.class;
                                 break;
                             }
-                            case R.string.scan_connectservice_uart: {           // Uart
-                                mComponentToStartWhenConnected = UartActivity.class;
-                                break;
-                            }
+
                             case R.string.scan_connectservice_controller: {    // Controller
                                 mComponentToStartWhenConnected = ControllerActivity.class;
                                 break;
@@ -1096,7 +1089,7 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
         if (mComponentToStartWhenConnected != null) {
             Log.d(TAG, "Start component:" + mComponentToStartWhenConnected);
             Intent intent = new Intent(MainActivity.this, mComponentToStartWhenConnected);
-            if (mComponentToStartWhenConnected == BeaconActivity.class && mSelectedDeviceData != null) {
+            if (mSelectedDeviceData != null) {
                 intent.putExtra("rssi", mSelectedDeviceData.rssi);
             }
             startActivityForResult(intent, kActivityRequestCode_ConnectedActivity);
@@ -1609,10 +1602,6 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
 
             String text;
             switch (deviceData.type) {
-                case BluetoothDeviceData.kType_Beacon:
-                    text = getChildBeacon(deviceData);
-                    break;
-
                 case BluetoothDeviceData.kType_UriBeacon:
                     text = getChildUriBeacon(deviceData);
                     break;
@@ -1678,50 +1667,6 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
 
             return result.toString();
         }
-
-        private String getChildBeacon(BluetoothDeviceData deviceData) {
-            StringBuilder result = new StringBuilder();
-
-            String name = deviceData.getName();
-            if (name != null) {
-                result.append(getString(R.string.scan_device_localname)).append(": <b>").append(name).append("</b><br>");
-            }
-            String address = deviceData.device.getAddress();
-            result.append(getString(R.string.scan_device_address)).append(": <b>").append(address == null ? "" : address).append("</b><br>");
-
-            final byte[] manufacturerBytes = {deviceData.scanRecord[6], deviceData.scanRecord[5]};      // Little endan
-            String manufacturer = BleUtils.bytesToHex(manufacturerBytes);
-
-            // Check if the manufacturer is known, and replace the id for a name
-            String kKnownManufacturers[] = getResources().getStringArray(R.array.beacon_manufacturers_ids);
-            int knownIndex = Arrays.asList(kKnownManufacturers).indexOf(manufacturer);
-            if (knownIndex >= 0) {
-                String kManufacturerNames[] = getResources().getStringArray(R.array.beacon_manufacturers_names);
-                manufacturer = kManufacturerNames[knownIndex];
-            }
-
-            result.append(getString(R.string.scan_device_beacon_manufacturer)).append(": <b>").append(manufacturer == null ? "" : manufacturer).append("</b><br>");
-
-            StringBuilder text = new StringBuilder();
-            if (deviceData.uuids != null && deviceData.uuids.size() == 1) {
-                UUID uuid = deviceData.uuids.get(0);
-                text.append(uuid.toString().toUpperCase());
-            }
-            result.append(getString(R.string.scan_device_uuid)).append(": <b>").append(text).append("</b><br>");
-
-            final byte[] majorBytes = {deviceData.scanRecord[25], deviceData.scanRecord[26]};           // Big endian
-            String major = BleUtils.bytesToHex(majorBytes);
-            result.append(getString(R.string.scan_device_beacon_major)).append(": <b>").append(major).append("</b><br>");
-
-            final byte[] minorBytes = {deviceData.scanRecord[27], deviceData.scanRecord[28]};           // Big endian
-            String minor = BleUtils.bytesToHex(minorBytes);
-            result.append(getString(R.string.scan_device_beacon_minor)).append(": <b>").append(minor).append("</b><br>");
-
-            result.append(getString(R.string.scan_device_txpower)).append(": <b>").append(deviceData.txPower).append("</b>");
-
-            return result.toString();
-        }
-
 
         @Override
         public long getGroupId(int groupPosition) {
