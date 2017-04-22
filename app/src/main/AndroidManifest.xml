@@ -103,7 +103,6 @@
         <activity
             android:name=".app.settings.ConnectedSettingsActivity"
             android:label="@string/title_activity_connected_settings" />
-
         <activity
             android:name=".app.settings.MqttUartSettingsCodeReaderActivity"
             android:label="@string/title_activity_mqtt_uart_settings_code_reader"
@@ -112,8 +111,8 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.adafruit.bluefruit.le.connect.app.settings.MqttUartSettingsActivity" />
-        </activity>s
-
+        </activity>
+        s
     </application>
 
 </manifest>
